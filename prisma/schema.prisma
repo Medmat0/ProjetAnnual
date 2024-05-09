@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                        Int              @id @default(autoincrement())
+  name                      String
+  email                     String           @unique
+  password                  String
+  role                      Role             @default(USER)
+  isActive                  Boolean          @default(true)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+  passwordResetToken        String?
+  passwordResetTokenVerfied Boolean?
+  passwordResetTokenExpire  String?
+  passwordChangedAt         String?
+  emailVerificationToken    String?          @unique
+  emailVerified             Boolean          @default(false)
+  comments                  Comment[]
+  likes                     Like[]
+  posts                     Post[]
+  profile                   Profile?
+  followers                 FollowRelation[] @relation(name: "followed")
+  following                 FollowRelation[] @relation(name: "follower")
+}
+
+model FollowRelation {
+  id         Int  @id @default(autoincrement())
+  followedId Int
+  followerId Int
+  followed   User @relation(name: "followed", fields: [followedId], references: [id])
+  follower   User @relation(name: "follower", fields: [followerId], references: [id])
+}
+
+model Profile {
+  id      Int     @id @default(autoincrement())
+  userId  Int     @unique
+  bio     String      @default("Not bio yet.")
+  city    String
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id            Int       @id @unique @default(autoincrement())
+  userId        Int
+  title         String
+  content       String
+  image         String[]  
+  likesCount    Int       @default(0)
+  commentsCount Int       @default(0)
+  postedAt      DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  privacy       privacy   @default(FOLLOWERS)
+  comments      Comment[]
+  likes         Like[]
+  author        User      @relation(fields: [userId], references: [id])
+}
+
+model Like {
+  postId Int
+  userId Int
+  Post   Post @relation(fields: [postId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
+
+  @@id([postId, userId])
+}
+
+model Comment {
+  id     Int   @unique     @default(autoincrement())
+  postId Int
+  userId Int
+  content String
+  Post   Post @relation(fields: [postId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum privacy {
+  PUBLIC
+  PRIVATE
+  FOLLOWERS
+}
