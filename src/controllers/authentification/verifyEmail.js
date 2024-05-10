@@ -1,14 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import asyncHandler from "express-async-handler";
 import crypto from "crypto";
-import APIError from "../../utils/APIError.js";
 const prisma = new PrismaClient();
 
-/**
- * @desc    Verfiy user's email
- * @method  PATCH
- * @route   /api/v1/auth/verfiy/:token
- */
 const verifyEmail = asyncHandler(async (req, res, next) => {
   const token = req.params?.token;
   const hashToken = await crypto
@@ -20,7 +14,10 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
       emailVerificationToken: hashToken,
     },
   });
-  if (!user) return next(new APIError("Invalid verfiy email token.", 409));
+  if (!user) {
+    return res.status(409).json({ message: "Invalid verify email token." });
+  }
+  
   await prisma.user.update({
     where: {
       emailVerificationToken: hashToken,
@@ -31,7 +28,8 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
       isActive: true,
     },
   });
-  res.status(200).json({ status: "Success", message: "Email verfied." });
+  
+  res.status(200).json({ status: "Success", message: "Email verified." });
 });
 
 export { verifyEmail };

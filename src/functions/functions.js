@@ -16,7 +16,7 @@ const sendEmailToUser = asyncHandler(async (info) => {
     to: info.to, // list of receivers
     subject: info.subject, // Subject line
     text: info.text, // plain text body
-    html: info.html, // html body
+    html: info.html,
   });
   console.log("Message ID : => ", send.messageId);
 });

@@ -1,5 +1,3 @@
-import APIError from "../utils/APIError.js";
-
 const errorHandler = (err, req, res, next) => {
   res.status(err.statusCode || 500).json({
     status: err.statusText || "Internal Server Error",
@@ -10,8 +8,11 @@ const errorHandler = (err, req, res, next) => {
 };
 
 const notFound = (req, res, next) => {
-    next(new APIError(`Route not found: ${req.originalUrl}`, 404));
-  };
-
+  res.status(404).json({
+    status: "error",
+    message: `Route not found: ${req.originalUrl}`,
+    statusCode: 404
+  });
+};
 
 export { errorHandler, notFound };
