@@ -1,0 +1,118 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// Table pour user 
+model User {
+  id                        Int              @id @default(autoincrement())
+  name                      String
+  email                     String           @unique
+  password                  String
+  role                      Role             @default(USER)
+  isActive                  Boolean          @default(true)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+  passwordResetToken        String?
+  passwordResetTokenVerfied Boolean?
+  passwordResetTokenExpire  String?
+  passwordChangedAt         String?
+  emailVerificationToken    String?          @unique
+  emailVerified             Boolean          @default(false)
+  comments                  Comment[]
+  likes                     Like[]
+  posts                     Post[]
+  programPosts              ProgramPost[]
+  profile                   Profile?
+  followers                 FollowRelation[] @relation(name: "followed")
+  following                 FollowRelation[] @relation(name: "follower")
+  programCollections        ProgramPost[]   @relation(name: "collection")
+}
+
+// table pour un post normal
+model Post {
+  id            Int       @id @unique @default(autoincrement())
+  userId        Int
+  title         String
+  content       String?
+  image         String[]
+  likesCount    Int       @default(0)
+  commentsCount Int       @default(0)
+  postedAt      DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  privacy       Privacy   @default(FOLLOWERS)
+  comments      Comment[]
+  likes         Like[]
+  author        User      @relation(fields: [userId], references: [id])
+}
+
+// table pour les program post 
+model ProgramPost {
+  id            Int       @id @unique @default(autoincrement())
+  userId        Int
+  title         String
+  description   String
+  code          String
+  inputType     String
+  outputType    String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  privacy       Privacy   @default(FOLLOWERS)
+  author        User      @relation(fields: [userId], references: [id])
+  collection    User[]    @relation(name: "collection")
+}
+
+model FollowRelation {
+  id         Int  @id @default(autoincrement())
+  followedId Int
+  followerId Int
+  followed   User @relation(name: "followed", fields: [followedId], references: [id])
+  follower   User @relation(name: "follower", fields: [followerId], references: [id])
+}
+
+model Profile {
+  id      Int     @id @default(autoincrement())
+  userId  Int     @unique
+  bio     String      @default("Not bio yet.")
+  image   String?
+  city    String
+  website String?
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Like {
+  postId Int
+  userId Int
+  Post   Post @relation(fields: [postId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
+
+  @@id([postId, userId])
+}
+
+model Comment {
+  id     Int   @unique     @default(autoincrement())
+  postId Int
+  userId Int
+  content String
+  Post   Post @relation(fields: [postId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
+}
+
+
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Privacy {
+  PUBLIC
+  PRIVATE
+  FOLLOWERS
+}
