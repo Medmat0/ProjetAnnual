@@ -122,7 +122,7 @@ const RegisterForm = () => {
   )}
 </Formik>
 
-        </div>
+        </div>   
       </div>
     </div>
   );
