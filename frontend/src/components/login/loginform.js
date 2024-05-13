@@ -26,7 +26,6 @@ const LoginForm = () => {
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       const response = await axios.post('http://localhost:3000/auth/login', values);
-      const { token } = response.data;
       login(values.email , values.password); 
       history('/home');
     } catch (error) {
