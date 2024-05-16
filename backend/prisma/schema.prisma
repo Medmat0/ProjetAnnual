@@ -32,10 +32,11 @@ model User {
   profile                   Profile?
   followers                 FollowRelation[] @relation(name: "followed")
   following                 FollowRelation[] @relation(name: "follower")
-  programCollections        ProgramPost[]   @relation(name: "collection")
+  programCollections        ProgramPost[]    @relation(name: "collection")
+  groupMemberships          GroupMember[]
 }
 
-// table pour un post normal
+// Table pour un post normal
 model Post {
   id            Int       @id @unique @default(autoincrement())
   userId        Int
@@ -52,7 +53,7 @@ model Post {
   author        User      @relation(fields: [userId], references: [id])
 }
 
-// table pour les program post 
+// Table pour les program post 
 model ProgramPost {
   id            Int       @id @unique @default(autoincrement())
   userId        Int
@@ -79,7 +80,7 @@ model FollowRelation {
 model Profile {
   id      Int     @id @default(autoincrement())
   userId  Int     @unique
-  bio     String      @default("Not bio yet.")
+  bio     String  @default("Not bio yet.")
   image   String?
   city    String
   website String?
@@ -96,15 +97,42 @@ model Like {
 }
 
 model Comment {
-  id     Int   @unique     @default(autoincrement())
-  postId Int
-  userId Int
+  id      Int   @unique @default(autoincrement())
+  postId  Int
+  userId  Int
   content String
-  Post   Post @relation(fields: [postId], references: [id])
-  User   User @relation(fields: [userId], references: [id])
+  Post    Post  @relation(fields: [postId], references: [id])
+  User    User  @relation(fields: [userId], references: [id])
 }
 
+// Table pour les groupes
+model Group {
+  id           Int          @id @default(autoincrement())
+  name         String
+  description  String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  members      GroupMember[]
+}
 
+// Table pour les membres des groupes
+model GroupMember {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  groupId   Int
+  role      GroupRole @default(MEMBER)
+  joinedAt  DateTime  @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id])
+
+  @@unique([userId, groupId])
+}
+
+ 
+enum GroupRole {
+  ADMIN
+  MEMBER
+}
 
 enum Role {
   USER

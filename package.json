@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node": "^22.2.0",
+    "prisma": "^5.14.0"
+  }
+}
