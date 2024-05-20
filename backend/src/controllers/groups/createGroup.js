@@ -10,12 +10,16 @@ const prisma = new PrismaClient();
  */
 const createGroup = asyncHandler(async (req, res) => {
   const { userId, name, description, privacy } = req.body;
-
+  let avatar = null;
+  if (req.file) {
+    avatar = req.file.path;
+  }
   const group = await prisma.group.create({
     data: {
       name,
       description,
-      privacy,
+      privacy: privacy === 'PRIVATE' ? 'PRIVATE' : 'PUBLIC', 
+      avatar,
       members: {
         create: {
           userId,
