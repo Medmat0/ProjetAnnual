@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Rightbar.css';
-import './Rightbar.css';
 import noAvatar from '../../assets/noAvatar.png';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import './Rightbar.css';
-
-
+import { Link, useParams } from 'react-router-dom';
 
 const Rightbar = ({ user }) => {
     const { userId } = useParams();
     const [friends, setFriends] = useState([]);
     const [joinedGroups, setJoinedGroups] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
+    const [newGroupName, setNewGroupName] = useState('');
+    const [newGroupDescription, setNewGroupDescription] = useState('');
+    const [newGroupPrivacy, setNewGroupPrivacy] = useState('public');
 
-    // Static list of groups
     const groups = [
-        { _id: '1', name: 'Group One', groupPicture: 'url/to/group1/picture' },
-        { _id: '2', name: 'Group Two', groupPicture: 'url/to/group2/picture' },
-        { _id: '3', name: 'Group Three', groupPicture: 'url/to/group3/picture' },
+        { _id: '1', name: 'Javascript', groupPicture: 'url/to/group1/picture' },
+        { _id: '2', name: 'ReactJs', groupPicture: 'url/to/group2/picture' },
+        { _id: '3', name: 'Python', groupPicture: 'url/to/group3/picture' },
     ];
 
     useEffect(() => {
@@ -65,18 +64,50 @@ const Rightbar = ({ user }) => {
         group.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handleCreateGroupClick = () => {
+        setShowCreateGroupModal(true);
+    };
+
+    const [message, setMessage] = useState(null);
+    const handleCreateGroup = async () => {
+        try {
+            const newGroup = {
+                userId,  // Assurez-vous que userId est inclus dans les données envoyées
+                name: newGroupName,
+                description: newGroupDescription,
+                privacy: newGroupPrivacy,
+            };
+            const res = await axios.post('/api/groups/create', newGroup);
+            // Add the new group to the list of groups (You might want to refetch or update the state here)
+            groups.push(res.data.data);
+            setShowCreateGroupModal(false);
+            setNewGroupName('');
+            setNewGroupDescription('');
+            setNewGroupPrivacy('public');
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    {message && <div className="message">{message}</div>}
     return (
         <div className="rightbar">
             <div className="rightbarWrapper">
                 {user ? (
                     <>
                         <h4 className="rightbarTitle">User Information</h4>
-                        <div className="rightbarInfo">
-                            {/* User information display */}
-                        </div>
                         <h4 className="rightbarTitle">User Friends</h4>
                         <div className="rightbarFollowings">
-                            {/* User friends display */}
+                            {friends.map(friend => (
+                                <Link to={`/profile/${friend._id}`} key={friend._id} className="rightbarFollowing">
+                                    <img
+                                        src={friend.profilePicture || noAvatar}
+                                        alt={friend.name}
+                                        className="rightbarFollowingImg"
+                                    />
+                                    <span className="rightbarFollowingName">{friend.name}</span>
+                                </Link>
+                            ))}
                         </div>
                         <h4 className="rightbarTitle">Available Groups</h4>
                         <input
@@ -86,23 +117,53 @@ const Rightbar = ({ user }) => {
                             onChange={handleSearchChange}
                             className="rightbarSearchInput"
                         />
+                        <button onClick={handleCreateGroupClick} className="rightbarFollowBtn">
+                            <span>+</span> Create Group
+                        </button>
                         <div className="rightbarGroups">
                             {filteredGroups.map(group => (
-                                <Link to={`/group/${group._id}`} key={group._id} className="rightbarGroup">
-                                    <img
-                                        src={group.groupPicture || noAvatar}
-                                        alt={group.name}
-                                        className="rightbarGroupImg"
-                                    />
-                                    <span className="rightbarGroupName">{group.name}</span>
+                                <div className="rightbarGroup" key={group._id}>
+                                    <Link to={`/group/${group._id}`} className="rightbarGroupLink">
+                                        <img
+                                            src={group.groupPicture || noAvatar}
+                                            alt={group.name}
+                                            className="rightbarGroupImg"
+                                        />
+                                        <span className="rightbarGroupName">{group.name}</span>
+                                    </Link>
                                     {joinedGroups.includes(group._id) ? (
-                                        <button onClick={() => leaveGroupHandler(group._id)}>Leave</button>
+                                        <button onClick={() => leaveGroupHandler(group._id)} className="rightbarFollowBtn">Leave</button>
                                     ) : (
-                                        <button onClick={() => joinGroupHandler(group._id)}>Join</button>
+                                        <button onClick={() => joinGroupHandler(group._id)} className="rightbarFollowBtn">Join</button>
                                     )}
-                                </Link>
+                                </div>
                             ))}
                         </div>
+                        {showCreateGroupModal && (
+                            <div className="createGroupModal">
+                                <h4>Create New Group</h4>
+                                <input
+                                    type="text"
+                                    placeholder="Group Name"
+                                    value={newGroupName}
+                                    onChange={(e) => setNewGroupName(e.target.value)}
+                                />
+                                <textarea
+                                    placeholder="Group Description"
+                                    value={newGroupDescription}
+                                    onChange={(e) => setNewGroupDescription(e.target.value)}
+                                />
+                                <select
+                                    value={newGroupPrivacy}
+                                    onChange={(e) => setNewGroupPrivacy(e.target.value)}
+                                >
+                                    <option value="public">Public</option>
+                                    <option value="private">Private</option>
+                                </select>
+                                <button onClick={handleCreateGroup}>Create</button>
+                                <button onClick={() => setShowCreateGroupModal(false)}>Cancel</button>
+                            </div>
+                        )}
                     </>
                 ) : (
                     <div>Home Rightbar Content</div>

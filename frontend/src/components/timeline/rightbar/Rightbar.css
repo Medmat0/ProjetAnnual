@@ -3,10 +3,12 @@
 }
 
 .rightbarWrapper {
-    padding: 20px;
+    padding: 20px 20px 0 0;
 }
 
 .rightbarTitle {
+    font-size: 18px;
+    font-weight: 500;
     margin-bottom: 10px;
 }
 
@@ -24,52 +26,137 @@
     color: #555;
 }
 
-.rightbarFollowings,
-.rightbarGroups {
+.rightbarInfoValue {
+    font-weight: 300;
+}
+
+.rightbarFollowings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.rightbarFollowing {
     display: flex;
     flex-direction: column;
-}
-
-.rightbarFollowing,
-.rightbarGroup {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.rightbarFollowingImg,
-.rightbarGroupImg {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
-
-.rightbarFollowingName,
-.rightbarGroupName {
-    font-weight: 500;
-}
-
-.rightbarGroup button {
-    margin-left: auto;
-    padding: 5px 10px;
+    margin-bottom: 20px;
     cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #1877f2;
-    color: white;
-    font-size: 14px;
 }
 
-.rightbarGroup button:hover {
-    background-color: #165dbf;
+.rightbarFollowingImg {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.rightbarFollowBtn {
+    margin-top: 10px;
+    border: none;
+    background-color: #1872f2;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 50px;
+}
+
+.rightbarFollowBtn:focus {
+    outline: none;
 }
 
 .rightbarSearchInput {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.rightbarGroups {
+    display: flex;
+    flex-direction: column;
+}
+
+.rightbarGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.rightbarGroupLink {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+.rightbarGroupImg {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.createGroupModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 300px;
+    border-radius: 8px;
+}
+
+.createGroupModal h4 {
+    margin-bottom: 15px;
+}
+
+.createGroupModal input,
+.createGroupModal textarea,
+.createGroupModal select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.createGroupModal button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.createGroupModal button:last-child {
+    background-color: #f44336;
+    color: white;
+}
+
+.createGroupModal button:first-child {
+    background-color: #4caf50;
+    color: white;
+}
+
+.group{
+    padding: 20px;
+}
+
+.rightbarGroupName {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 820px) {
+    .rightbar {
+        display: none;
+    }
 }
