@@ -1,0 +1,5 @@
+export { getAllCommentsOnAPost} from './getAllcomments.js'
+export { createComment } from './postcomment.js'
+export {updateComment} from './updatecomment.js'
+export {addReplyToComment} from './addreply.js'
+export {deleteComment} from './deletecomment.js'
