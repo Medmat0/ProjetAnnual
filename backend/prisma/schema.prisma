@@ -1,3 +1,8 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -7,8 +12,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-
 // Table pour user 
 model User {
   id                        Int              @id @default(autoincrement())
@@ -32,8 +35,37 @@ model User {
   profile                   Profile?
   followers                 FollowRelation[] @relation(name: "followed")
   following                 FollowRelation[] @relation(name: "follower")
+  followRequestsSent        FollowRequest[] @relation(name: "requester")
+  followRequestsReceived    FollowRequest[] @relation(name: "requestee")
   programCollections        ProgramPost[]   @relation(name: "collection")
+  notifications             Notification[]  
+  friends1                  Friendship[]     @relation(name: "friendshipUser1")
+  friends2                  Friendship[]     @relation(name: "friendshipUser2")
+  replies                   Reply[]          @relation(name: "UserReplies")
+
+
 }
+
+
+model Friendship {
+  id          Int  @id @default(autoincrement())
+  userId1     Int
+  userId2     Int
+  user1       User @relation(name: "friendshipUser1", fields: [userId1], references: [id])
+  user2       User @relation(name: "friendshipUser2", fields: [userId2], references: [id])
+
+  @@unique([userId1, userId2])
+}
+model Notification {
+  id         Int      @id @default(autoincrement())
+  type       String
+  message    String
+  userId     Int
+  createdAt  DateTime @default(now())
+  isRead     Boolean  @default(false)
+  user       User     @relation(fields: [userId], references: [id])
+}
+
 
 // table pour un post normal
 model Post {
@@ -60,7 +92,6 @@ model ProgramPost {
   description   String
   code          String
   inputType     String
-  outputType    String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   privacy       Privacy   @default(FOLLOWERS)
@@ -102,9 +133,40 @@ model Comment {
   content String
   Post   Post @relation(fields: [postId], references: [id])
   User   User @relation(fields: [userId], references: [id])
+  replies  Reply[]  @relation(name : "CommentReplies")
+  
+
+}
+
+model Reply {
+  id        Int    @id @unique @default(autoincrement())
+  commentId Int
+  userId    Int
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  comment   Comment @relation(name :"CommentReplies", fields: [commentId], references: [id])
+  user      User    @relation(name : "UserReplies" ,fields: [userId], references: [id])
 }
 
 
+model FollowRequest {
+  id         Int      @id @default(autoincrement())
+  requesterId Int
+  requesteeId Int
+  status     RequestStatus @default(PENDING)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  requester  User @relation(name: "requester", fields: [requesterId], references: [id])
+  requestee  User @relation(name: "requestee", fields: [requesteeId], references: [id])
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
 
 enum Role {
   USER
