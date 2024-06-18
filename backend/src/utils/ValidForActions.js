@@ -1,4 +1,4 @@
-import { prisma } from "../controllers/prisma.js";
+import  prisma  from "../controllers/prisma.js";
 import asyncHandler from "express-async-handler";
 
 

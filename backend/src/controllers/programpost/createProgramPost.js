@@ -1,5 +1,5 @@
 
-import prisma from "./prisma.js";
+import prisma from "../prisma.js";
 import asyncHandler from "express-async-handler";
 
 
