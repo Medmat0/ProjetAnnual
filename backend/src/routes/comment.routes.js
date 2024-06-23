@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import { authMiddleware } from '../middleware/auth.middleware.js';
-import { createComment , getAllCommentsOnAPost , updateComment , addReplyToComment,deleteComment } from '../controller/comments/comment.index.js';
+import { createComment , getAllCommentsOnAPost , updateComment , addReplyToComment,deleteComment } from '../controllers/comments/comment.index.js';
 
 router.post("/:pId", authMiddleware, createComment);
 router.get("/comments/:pId", authMiddleware, getAllCommentsOnAPost);
