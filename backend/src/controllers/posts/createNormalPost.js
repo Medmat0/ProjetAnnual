@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma.js';
 import asyncHandler from "express-async-handler";
 import uploader from "../../utils/sendToCloudinary.js";
 import fs from "fs";
 
-const prisma = new PrismaClient();
 
 /**
  * @desc    Create normal post

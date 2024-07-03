@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../prisma.js';
 
-const prisma = new PrismaClient();
 
 const listFriendshipRequest = async (req, res) => {
   const userId = req.user.id; // Supposons que l'ID de l'utilisateur soit stocké dans req.user.id après l'authentification

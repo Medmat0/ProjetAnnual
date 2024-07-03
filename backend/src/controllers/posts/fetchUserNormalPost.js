@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma.js';
 import asyncHandler from "express-async-handler";
-const prisma = new PrismaClient();
 
 /**
  * @desc    User list his specific outher user posts (normal posts )

@@ -1,8 +1,6 @@
-// controller/deleteProgramPost.js
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma.js';
 import asyncHandler from "express-async-handler";
 
-const prisma = new PrismaClient();
 
 /**
  * @desc    Current user can delete his program post along with related likes, comments, collections, and versions

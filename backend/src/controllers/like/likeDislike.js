@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma.js';
 import asyncHandler from "express-async-handler";
 import { ValidPostToMakeActions } from "../../utils/ValidForActions.js";
-const prisma = new PrismaClient();
 
 /**
  * @desc    User can Like or unlike any available post
