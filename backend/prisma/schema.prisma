@@ -12,6 +12,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 // Table pour user 
 model User {
   id                        Int              @id @default(autoincrement())
@@ -28,24 +29,36 @@ model User {
   passwordChangedAt         String?
   emailVerificationToken    String?          @unique
   emailVerified             Boolean          @default(false)
-  comments                  Comment[]
-  likes                     Like[]
+  postComments              PostComment[]
+  programPostComments       ProgramPostComment[]
+  postLikes                 PostLike[]
+  programPostLikes          ProgramPostLike[]
   posts                     Post[]
   programPosts              ProgramPost[]
   profile                   Profile?
   followers                 FollowRelation[] @relation(name: "followed")
   following                 FollowRelation[] @relation(name: "follower")
-  followRequestsSent        FollowRequest[] @relation(name: "requester")
-  followRequestsReceived    FollowRequest[] @relation(name: "requestee")
-  programCollections        ProgramPost[]   @relation(name: "collection")
+  followRequestsSent        FollowRequest[]  @relation(name: "requester")
+  followRequestsReceived    FollowRequest[]  @relation(name: "requestee")
+  programCollections        ProgramPost[]    @relation(name: "collection")
   notifications             Notification[]  
   friends1                  Friendship[]     @relation(name: "friendshipUser1")
   friends2                  Friendship[]     @relation(name: "friendshipUser2")
   replies                   Reply[]          @relation(name: "UserReplies")
-
-
+  pipelines                 Pipeline[]       @relation("UserPipelines")
 }
 
+model Pipeline {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  nodes       Json
+  edges       Json
+  userId      Int
+  user        User     @relation(name: "UserPipelines", fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 
 model Friendship {
   id          Int  @id @default(autoincrement())
@@ -56,6 +69,7 @@ model Friendship {
 
   @@unique([userId1, userId2])
 }
+
 model Notification {
   id         Int      @id @default(autoincrement())
   type       String
@@ -66,8 +80,7 @@ model Notification {
   user       User     @relation(fields: [userId], references: [id])
 }
 
-
-// table pour un post normal
+// Table pour un post normal
 model Post {
   id            Int       @id @unique @default(autoincrement())
   userId        Int
@@ -79,12 +92,12 @@ model Post {
   postedAt      DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   privacy       Privacy   @default(FOLLOWERS)
-  comments      Comment[]
-  likes         Like[]
+  comments      PostComment[]
+  likes         PostLike[]
   author        User      @relation(fields: [userId], references: [id])
 }
 
-// table pour les program post 
+// Table pour les program post 
 model ProgramPost {
   id            Int       @id @unique @default(autoincrement())
   userId        Int
@@ -93,10 +106,26 @@ model ProgramPost {
   code          String
   inputType     String
   createdAt     DateTime  @default(now())
+  language      String   
+  likesCount    Int       @default(0) 
+  commentsCount Int       @default(0)
   updatedAt     DateTime  @updatedAt
   privacy       Privacy   @default(FOLLOWERS)
+  comments      ProgramPostComment[]
+  likes         ProgramPostLike[]
   author        User      @relation(fields: [userId], references: [id])
   collection    User[]    @relation(name: "collection")
+  versions      ProgramPostVersion[] @relation("ProgramPostVersions")
+  tags          String[]  @default([])  
+}
+
+model ProgramPostVersion {
+  id            Int         @id @default(autoincrement())
+  programPostId Int
+  content       String
+  versionNumber Int
+  createdAt     DateTime    @default(now())
+  programPost   ProgramPost @relation(name : "ProgramPostVersions",fields: [programPostId], references: [id])
 }
 
 model FollowRelation {
@@ -110,53 +139,77 @@ model FollowRelation {
 model Profile {
   id      Int     @id @default(autoincrement())
   userId  Int     @unique
-  bio     String      @default("Not bio yet.")
+  bio     String  @default("Not bio yet.")
   image   String?
   city    String
   website String?
   user    User    @relation(fields: [userId], references: [id])
 }
 
-model Like {
-  postId Int
-  userId Int
-  Post   Post @relation(fields: [postId], references: [id])
-  User   User @relation(fields: [userId], references: [id])
+// Model for likes on Post
+model PostLike {
+  id      Int  @id @default(autoincrement())
+  postId  Int
+  userId  Int
+  post    Post @relation(fields: [postId], references: [id])
+  user    User @relation(fields: [userId], references: [id])
 
-  @@id([postId, userId])
+  @@unique([postId, userId])
 }
 
-model Comment {
-  id     Int   @unique     @default(autoincrement())
-  postId Int
-  userId Int
-  content String
-  Post   Post @relation(fields: [postId], references: [id])
-  User   User @relation(fields: [userId], references: [id])
-  replies  Reply[]  @relation(name : "CommentReplies")
-  
+// Model for likes on ProgramPost
+model ProgramPostLike {
+  id            Int  @id @default(autoincrement())
+  programPostId Int
+  userId        Int
+  programPost   ProgramPost @relation(fields: [programPostId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
 
+  @@unique([programPostId, userId])
+}
+
+// Model for comments on Post
+model PostComment {
+  id      Int    @id @default(autoincrement())
+  postId  Int
+  userId  Int
+  content String
+  post    Post   @relation(fields: [postId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+  replies Reply[] @relation(name: "PostCommentReplies")
+}
+
+// Model for comments on ProgramPost
+model ProgramPostComment {
+  id            Int    @id @default(autoincrement())
+  programPostId Int
+  userId        Int
+  content       String
+  programPost   ProgramPost @relation(fields: [programPostId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  replies       Reply[]     @relation(name: "ProgramPostCommentReplies")
 }
 
 model Reply {
-  id        Int    @id @unique @default(autoincrement())
-  commentId Int
-  userId    Int
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  comment   Comment @relation(name :"CommentReplies", fields: [commentId], references: [id])
-  user      User    @relation(name : "UserReplies" ,fields: [userId], references: [id])
+  id                   Int                  @id @default(autoincrement())
+  postCommentId        Int?
+  programPostCommentId Int?
+  userId               Int
+  content              String
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  postComment          PostComment?         @relation(name: "PostCommentReplies", fields: [postCommentId], references: [id])
+  programPostComment   ProgramPostComment?  @relation(name: "ProgramPostCommentReplies", fields: [programPostCommentId], references: [id])
+  user                 User                 @relation(name: "UserReplies", fields: [userId], references: [id])
 }
 
-
 model FollowRequest {
-  id         Int      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   requesterId Int
   requesteeId Int
-  status     RequestStatus @default(PENDING)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  status      RequestStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   requester  User @relation(name: "requester", fields: [requesterId], references: [id])
   requestee  User @relation(name: "requestee", fields: [requesteeId], references: [id])
