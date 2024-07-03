@@ -10,8 +10,7 @@ import asyncHandler from "express-async-handler";
  */
 const createProgramPost = asyncHandler(async (req, res, next) => {
   const { title, content, code, inputType, privacy, language } = req.body;
-  console.log(req.body)
-  console.log("in priogram post");
+ 
   if (!title || !content || !code) {
     return res.status(400).json({ message: "Title, Description, and Code are required." });
   }

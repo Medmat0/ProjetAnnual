@@ -1,6 +1,7 @@
-import prisma from '../prisma.js';
+import { PrismaClient } from "@prisma/client";
 import asyncHandler from "express-async-handler";
 import { ValidPostToMakeActions } from "../../utils/ValidForActions.js";
+const prisma = new PrismaClient();
 
 /**
  * @desc       User can create comment
@@ -11,10 +12,12 @@ const createComment = asyncHandler(async (req, res, next) => {
   const postId = +req.params.pId;
   const currentUser = +req.user.id;
   const { content } = req.body;
+
   const post = await ValidPostToMakeActions(postId, currentUser);
   if (!post)
     return res.status(404).json({ message: "We can't reach to this post" });
-  const comment = await prisma.comment.create({
+
+  const comment = await prisma.postComment.create({
     data: {
       postId: postId,
       userId: currentUser,
@@ -23,13 +26,18 @@ const createComment = asyncHandler(async (req, res, next) => {
     select: {
       id: true,
       content: true,
-      User: {
+      user: {
         select: {
           name: true,
           id: true,
+          profile: {
+            select: {
+              image: true,
+            },
+          },
         },
       },
-      Post: {
+      post: {
         select: {
           id: true,
           title: true,
@@ -37,8 +45,10 @@ const createComment = asyncHandler(async (req, res, next) => {
       },
     },
   });
+
   if (!comment)
     return res.status(400).json({ message: "Error while posting the comment" });
+
   await prisma.post.update({
     where: {
       id: postId,
@@ -49,6 +59,7 @@ const createComment = asyncHandler(async (req, res, next) => {
       },
     },
   });
+
   res.status(201).json({ status: "Success", data: comment });
 });
 
