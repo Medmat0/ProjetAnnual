@@ -1,0 +1,52 @@
+/* collection.css */
+.collectionsList {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    transition: background-color 0.3s ease;
+  }
+  
+  .collectionsList h4 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .collectionsList ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .language-image {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+
+  .collectionsList li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .collectionsList li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .collectionsList p {
+    color: #777;
+  }
+  
+  .context-menu button:hover {
+    background-color: #f4f4f4;
+  }
+  
+  .context-menu button:active {
+    background-color: #e0e0e0;
+  }
