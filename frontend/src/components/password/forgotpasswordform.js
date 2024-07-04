@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
-
+import { BASE_URL } from "../../apiCall";
 import * as Yup from 'yup';
 import axios from 'axios';
 import './forgotpasswordform.css';
@@ -21,7 +21,7 @@ const ForgotPasswordForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/forgotpassword', values);
+      const response = await axios.post(`${BASE_URL}/auth/forgotpassword`, values);
       setSuccessMessage(response.data.message);
       history('/resetpassword');
     } catch (error) {
@@ -31,6 +31,7 @@ const ForgotPasswordForm = () => {
   };
 
   return (
+    
     <div className="login">
       <div className="loginWrapper">
         <div className="loginRight">

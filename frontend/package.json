@@ -10,6 +10,7 @@
     "formik": "^2.4.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
@@ -17,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start --port 3001",
-    "build": "echo 'frontend build'",  
+    "build": "echo 'frontend build'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

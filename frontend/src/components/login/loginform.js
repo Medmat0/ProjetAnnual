@@ -1,10 +1,11 @@
-import React , { useEffect }from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './loginform.css';
 import axios from 'axios';
 import { useAuth } from '../../context/authContext';
+import toast from "react-hot-toast";
 
 
 const validationSchema = Yup.object({
@@ -25,15 +26,22 @@ const LoginForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', values);
+      await axios.post('http://localhost:3000/auth/login', values);
       login(values.email , values.password); 
       history('/home');
     } catch (error) {
-      console.error('Error during login:', error);
+      
+      if (error.code == "ERR_BAD_REQUEST") {
+        console.error('Error during login:', error.code);
+        setErrors({ email: '', password: 'No connection to the backend API.' });
+        toast.error('No connection to the backend API.');
+      }
       if (error.response && error.response.data) {
         setErrors({ email: '', password: error.response.data.message });
+      
       } else {
-        setErrors({ email: '', password: 'Une erreur est survenue lors de la connexion.' });
+        setErrors({ email: '', password: 'An error occurred during login.' });
+        toast.error('No connection to the backend API.');
       }
     }
     setSubmitting(false);
