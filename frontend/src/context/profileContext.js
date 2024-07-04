@@ -37,7 +37,7 @@ export const ProfileProvider = ({ children }) => {
         },
       };
       const { data } = await axios.patch(
-        `${BASE_URL}/myprofile/edit`,
+        `${BASE_URL}/profile/edit`,
         { name, email, desc, city, profilePicture, coverPicture },
         config
       );
@@ -65,7 +65,7 @@ export const ProfileProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(`${BASE_URL}/myprofile/follow/${followId}`, {}, config);
+      await axios.post(`${BASE_URL}/profile/follow/${followId}`, {}, config);
       toast.success("You followed the user", successOptions);
     } catch (error) {
       toast.error(error.response.data.message, errorOptions);
@@ -81,7 +81,7 @@ export const ProfileProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.post(`${BASE_URL}/myprofile/unfollow/${unfollowId}`,{},  config);
+      const response = await axios.post(`${BASE_URL}/profile/unfollow/${unfollowId}`,{},  config);
       console.log(response);
       toast.success("You unfollowed the user", successOptions);
     } catch (error) {
@@ -97,7 +97,7 @@ export const ProfileProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(`${BASE_URL}/myprofile/request/send/${userId}`, {}, config);
+      await axios.post(`${BASE_URL}/profile/request/send/${userId}`, {}, config);
       toast.success("Follow request sent", successOptions);
     } catch (error) {
       toast.error(error.response.data.message, errorOptions);
