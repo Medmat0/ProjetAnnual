@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useAuth } from '../../context/authContext';
 import toast from "react-hot-toast";
 
-
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email format').required('Required'),
   password: Yup.string().required('Required').min(6),
@@ -16,7 +15,6 @@ const validationSchema = Yup.object({
 const LoginForm = () => {
   const {login}   = useAuth();
   const history = useNavigate();
-  
 
   const initialValues = {
     email: '',
