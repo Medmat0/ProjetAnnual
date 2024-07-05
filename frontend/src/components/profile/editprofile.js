@@ -37,7 +37,7 @@ const EditProfile = () => {
         },
       };
       const res = await axios.get(
-        `${BASE_URL}/myprofile/details/${params.userId}`,
+        `${BASE_URL}/profile/details/${params.userId}`,
         config
       );
       console.log("user in edit profile", res.data);

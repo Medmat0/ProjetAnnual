@@ -129,7 +129,7 @@ const PostCard = ({ post, fetchPosts }) => {
             <Link to={`/profile/${post.author.id}`}>
               <img
                 className="postProfileImg"
-                src={post.author.profile.image || sampleProPic}
+                src={post.author.profile && post.author.profile.image ? post.author.profile.image : sampleProPic}
                 alt="..."
               />
             </Link>
@@ -220,7 +220,7 @@ const PostCard = ({ post, fetchPosts }) => {
               <div className="postCommentUser">
                 <img
                   className="postProfileImg"
-                  src={comment.user.profile.image  || sampleProPic}
+                  src={comment.user.profile && comment.user.profile.image ? comment.user.profile.image : sampleProPic}
                   alt="..."
                 />
                 <span className="postCommentUserName">

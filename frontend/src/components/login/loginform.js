@@ -28,7 +28,7 @@ const LoginForm = () => {
     try {
       await axios.post('http://localhost:3000/auth/login', values);
       login(values.email , values.password); 
-      history('/home');
+      history('/');
     } catch (error) {
       
       if (error.code == "ERR_BAD_REQUEST") {

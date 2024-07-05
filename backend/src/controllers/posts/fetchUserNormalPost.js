@@ -33,7 +33,7 @@ const userId = parseInt(req.params.userId);
         select: {
           id: true,
           content: true,
-          User: {
+          user: {
             select: {
               id: true,
               name: true,

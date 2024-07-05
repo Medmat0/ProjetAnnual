@@ -87,7 +87,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
     fetchPosts();
     setComm("");
   };
-
+ console.log(post);
   const deleteHandler = async () => {
     try {
       const config = {
@@ -98,7 +98,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
       };
       setCommentLoading(true);
       if (post.id) {
-        await axios.delete(`${BASE_URL}/delete/${post.id}`, config);
+        await axios.delete(`${BASE_URL}/programPost/delete/${post.id}`, config);
       }
       setCommentLoading(false);
       toast.success("Post deleted successfully!");
@@ -139,7 +139,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const res = await axios.get(`${BASE_URL}/programVersions/${post.id}`, config);
+      const res = await axios.get(`${BASE_URL}/programPost/programVersions/${post.id}`, config);
       setVersions(res.data);
       return res.data;
     } catch (error) {
@@ -195,7 +195,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
               Authorization: `Bearer ${token}`,
             },
           };
-      await axios.post(`${BASE_URL}/saveVersion`, { postId: post.id, content: selectedVersion } , config);
+      await axios.post(`${BASE_URL}/programPost/saveVersion`, { postId: post.id, content: selectedVersion } , config);
       
         toast.success("Version saved successfully");
         await fetchVersions();

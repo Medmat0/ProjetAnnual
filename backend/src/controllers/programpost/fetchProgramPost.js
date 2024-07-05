@@ -1,3 +1,4 @@
+
 import prisma from "../prisma.js";
 import asyncHandler from "express-async-handler";
 
@@ -37,6 +38,9 @@ const getProgramPosts = asyncHandler(async (req, res, next) => {
         },
         privacy: "PUBLIC" 
       },
+      orderBy: {
+        createdAt: "desc"
+      },
       include: {
         author: {
           select: {
@@ -48,7 +52,24 @@ const getProgramPosts = asyncHandler(async (req, res, next) => {
               }
             }
           }
-        }
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                profile: {
+                  select: {
+                    image: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
   

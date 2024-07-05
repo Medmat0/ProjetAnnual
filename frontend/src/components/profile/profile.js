@@ -41,7 +41,7 @@ const Profile = () => {
       },
     };
     try {
-      const res = await axios.get(`${BASE_URL}/myprofile/search?keyword=${searchKey}`, config);
+      const res = await axios.get(`${BASE_URL}/profile/search?keyword=${searchKey}`, config);
       setSearchFriends(res.data.data);
     } catch (error) {
       console.error("Error searching users:", error);
@@ -49,7 +49,6 @@ const Profile = () => {
     setSearchKey("");
   };
 
-  // Récupération des détails de l'utilisateur
   useEffect(() => {
     const fetchUserDetails = async () => {
       const config = {
@@ -59,20 +58,18 @@ const Profile = () => {
       };
       try {
         const id = params.userId || 1;
-        const res = await axios.get(`${BASE_URL}/myprofile/details/${id}`, config);
+        const res = await axios.get(`${BASE_URL}/profile/details/${id}`, config);
         setUser(res.data.user);
       } catch (error) {
         console.error("Error fetching user details:", error);
-        // Gestion de l'erreur ici
       }
     };
     fetchUserDetails();
   }, [params.userId, token]);
 
-  // Déconnexion de l'utilisateur
   const handleLogout = () => {
-    logout(); // Utilisation de la fonction logout fournie par useAuth
-    history("/login"); // Navigue vers la page de connexion après déconnexion
+    logout(); 
+    history("/login"); 
   };
 
   return (

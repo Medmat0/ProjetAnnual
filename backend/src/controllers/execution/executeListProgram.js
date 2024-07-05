@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import os from 'os';
-import uploader from "../utils/cloudinary.js";
+import uploaderRaw from "../../utils/cloudinaryRaw.js"
 
 const docker = new Docker();
 
@@ -11,20 +11,15 @@ const execlistcode = async (req, res) => {
     try {
         const { program, input } = req.body;
         const result = await executeProgram(program.code, program.language, input);
-        console.log('Result:', result);
-               const tmpDir = os.tmpdir();
-               const resultFilePath = path.join(tmpDir, `${uuidv4()}.txt`);
+        const tmpDir = os.tmpdir();
+        const tempDirPath = path.join(tmpDir, uuidv4());
+        await fs.mkdir(tempDirPath, { recursive: true });
+        const resultFilePath = path.join(tempDirPath, 'output.txt');
+          
+        await fs.writeFile(resultFilePath, result);
         
-               await fs.writeFile(resultFilePath, result);
-               console.log('Result file path:', resultFilePath);
-               if(fs.existsSync(resultFilePath)) {console.log('File not found');}
-       
-               const uploadedResult = await uploader(resultFilePath);
-               const resultUrl = uploadedResult.url;
-               console.log('Result URL:', resultUrl);
-               console.log('Result:', uploadedResult);
-               await fs.rm(resultFilePath);
-       
+        const uploaded = await uploaderRaw(resultFilePath);
+        const resultUrl = uploaded.url;
                res.status(200).json({ resultUrl });
     } catch (error) {
         console.error('Error executing program:', error);
@@ -37,10 +32,9 @@ const executeProgram = async (code, language, input) => {
     const workDir = path.join(tmpDir, uuidv4());    
     const inputFilePath = path.join(workDir, 'input.txt');
     const outputFilePath = path.join(workDir, 'output.txt');
-    await fs.mkdir(workDir, { recursive: true }); // Créer le répertoire de travail, y compris les répertoires parents manquants
+    await fs.mkdir(workDir, { recursive: true }); 
 
     try {
-        // Écrire l'input dans un fichier
         await fs.writeFile(inputFilePath, input);
 
         const imageName = language === 'python' ? 'python:latest' : 'node:latest';

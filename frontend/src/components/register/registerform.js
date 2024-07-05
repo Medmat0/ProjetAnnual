@@ -29,8 +29,8 @@ const RegisterForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', values);
-      console.log(response.data);
+      await axios.post('http://localhost:3000/auth/register', values);
+      history('/login')
     } catch (error) {
       console.error('Error:', error.response.data);
       if (error.response && error.response.data) {

@@ -25,7 +25,7 @@ export const PostProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post(`${BASE_URL}/createProgramPost`, programPostData, config);
+      const { data } = await axios.post(`${BASE_URL}/programPost/createProgramPost`, programPostData, config);
       dispatch({ type: "CREATE_PROGRAM_POST_SUCCESS", payload: data });
       toast.success("Program Post created successfully", successOptions);
     } catch (error) {
@@ -59,6 +59,7 @@ export const PostProvider = ({ children }) => {
       });
       toast.success("Post created successfully", successOptions);
     } catch (error) {
+      console.log("Error", error);
         if (error.response && error.response.data && error.response.data.message) {
             dispatch({
               type: "CREATE_POST_FAIL",

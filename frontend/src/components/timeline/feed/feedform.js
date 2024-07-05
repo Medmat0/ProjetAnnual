@@ -30,7 +30,7 @@ const Feed = ({ userId, searchKey }) => {
       };
 
       let url = postType === "program"
-        ? `${BASE_URL}/programPosts`
+        ? `${BASE_URL}/programPost/programPosts`
         : userId
           ? `${BASE_URL}/post/posts/${params.userId}?privacy=PUBLIC`
           : `${BASE_URL}/post/myposts?privacy=PUBLIC`;

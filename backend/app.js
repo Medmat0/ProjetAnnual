@@ -7,7 +7,7 @@ import likeDislikeRoutes from "./src/routes/likeDislike.routes.js";
 import commentRoutes from "./src/routes/comment.routes.js";
 import pipelineRoutes from "./src/routes/pipeline.routes.js";
 import collectionRoutes from "./src/routes/collection.routes.js";
-// import executionRoutes from "./src/routes/execution.routes.js";
+ import executionRoutes from "./src/routes/execution.routes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 const PORT = process.env.PORT || 3000;
@@ -25,7 +25,7 @@ app.use("/like", likeDislikeRoutes);
 app.use('/comment', commentRoutes);
 app.use('/pipeline', pipelineRoutes);
 app.use('/collection', collectionRoutes);
-//app.use('/execution', executionRoutes);
+app.use('/execution', executionRoutes);
 
 
 
