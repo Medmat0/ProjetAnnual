@@ -22,9 +22,10 @@ const CollectionsList = ({updateCollection}) => {
           },
         };
         const response = await axios.get(`${BASE_URL}/collection/all`, config);
-        setCollections(response.data);
+        setCollections(response.data || []);
       } catch (error) {
         console.error("Failed to fetch collections", error);
+        setCollections([]);
       }
     };
 

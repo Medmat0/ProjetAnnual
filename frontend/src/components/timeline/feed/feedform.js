@@ -65,7 +65,7 @@ const Feed = ({ userId, searchKey }) => {
   };
 
   const filteredPosts = selectedTags.length > 0
-    ? posts.filter((post) => selectedTags.every((tag) => post.tags?.includes(tag)))
+    ? posts.filter((post) => selectedTags.every((tag) => (post.tags || []).includes(tag)))
     : posts;
 
   return (
