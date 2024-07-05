@@ -13,13 +13,11 @@ import useTheme from "../ThemeContext";
 const Rightbar = ({ user }) => {
   const params = useParams();
   const [friends, setFriends] = useState([]);
-  const [liveUser, setLiveUser] = useState();
   const [followed, setFollowed] = useState(false);
-
   const history = useNavigate();
 
   const { token, userId, name } = useAuth();
-  const { followUser, unfollowUser, sendFollowRequest } = useProfile();
+  const { unfollowUser, sendFollowRequest } = useProfile();
   const { theme } = useTheme();
 
   // get user details
@@ -30,11 +28,10 @@ const Rightbar = ({ user }) => {
       },
     };
     if (userId) {
-      const res = await axios.get(
+      await axios.get(
         `${BASE_URL}/profile/details/${userId}`,
         config
       );
-      setLiveUser(res.data.user);
     }
   };
 
@@ -55,7 +52,7 @@ const Rightbar = ({ user }) => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  });
 
   const fetchFriends = async () => {
     const config = {
@@ -74,18 +71,15 @@ const Rightbar = ({ user }) => {
 
   useEffect(() => {
     if (params.userId && friends.length > 0) {
-      setFollowed(friends.some((friend) => friend.id == params.userId));
+      setFollowed(friends.some((friend) => friend.id === params.userId));
     }
-    friends.map((friend) => {console.log(friend.id)});
   }, [friends, params.userId]);
 
   useEffect(() => {
-    if (userId) {
+    
       fetchFriends();
-    } else {
-      console.log("no userId");
-    }
-  }, [token, userId]);
+
+  }, [userId]);
 
   const HomeRightbar = () => {
     return (

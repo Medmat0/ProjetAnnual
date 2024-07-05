@@ -18,14 +18,11 @@ import { BASE_URL } from "../../../apiCall";
 const PostCard = ({ post, fetchPosts }) => {
   const [like, setLike] = useState(post.likesCount);
   const [isLiked, setIsLiked] = useState(false);
-  const [user, setUser] = useState({});
   const [commentLoading, setCommentLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [comm, setComm] = useState("");
-
   const { token, userId } = useAuth();
   const { getTimelinePosts } = usePost();
-  console.log("posts",post);
   const likeHandler = () => {
     try {
       const config = {
@@ -101,25 +98,8 @@ const PostCard = ({ post, fetchPosts }) => {
 
   useEffect(() => {
     setIsLiked(post.likes?.includes(userId));
-  }, [token.id, post.likes]);
+  }, [token.id, post.likes, userId]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      if (post.user) {
-        const res = await axios.get(
-          `${BASE_URL}/user?userId=${post.user}`,
-          config
-        );
-        setUser(res.data);
-      }
-    };
-    fetchUsers();
-  }, [post.userId, userId, post.author.name]);
 
   return (
     <div className="post">
@@ -145,7 +125,7 @@ const PostCard = ({ post, fetchPosts }) => {
             </span>
           </div>
           <div className="postTopRight">
-            {userId == post.author.id ? (
+            {userId === post.author.id ? (
               <button
                 style={{ backgroundColor: "#3b82f6" }}
                 className="shareButton"

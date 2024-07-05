@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./editorcode.css";
 import Editor from "@monaco-editor/react";
-import { Box, CircularProgress, Input, MenuItem, Select, InputLabel, FormControl } from "@material-ui/core";
+import {  Input, MenuItem, Select, InputLabel, FormControl } from "@material-ui/core";
 import InputEmoji from "react-input-emoji";
-import { useAuth } from "../../../context/authContext";
 import usePost from "../../../context/postContext";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
 
 const editorOptions = {
   scrollBeyondLastLine: false,
@@ -23,7 +21,6 @@ const ProgrammePost = ({ fetchPosts }) => {
   const [inputType, setInputType] = useState("txt");
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState([]);
-  const { token } = useAuth();
   const { createProgramPost, createLoading } = usePost();
 
   const instructions = {

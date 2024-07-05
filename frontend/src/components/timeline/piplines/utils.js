@@ -17,7 +17,7 @@ export const transformPipelineData = (data) => {
         position: node.position,
         data: {
           ...node.data,
-          label: `${node.data.label != "[object Object]" ? node.data.label :"program" } - Type: ${node.data.inputType}`,
+          label: `${node.data.label !== "[object Object]" ? node.data.label :"program" } - Type: ${node.data.inputType}`,
           version: node.data.version,
 
         },
@@ -49,7 +49,7 @@ export const transformPipeline = (data) => { const pipeline = data;
       position: node.position,
       data: {
         ...node.data,
-        label: `${node.data.label != "[object Object]" ? node.data.label : "program"} - Type: ${node.data.inputType}`,
+        label: `${node.data.label !== "[object Object]" ? node.data.label : "program"} - Type: ${node.data.inputType}`,
         version: node.data.version,
       },
       width: node.width,
@@ -84,7 +84,7 @@ export const transformPipeline = (data) => { const pipeline = data;
     position: node.position,
     data: {
       ...node.data,
-      label: `${node.data.label != "[object Object]" ? node.data.label : "program"} - Type: ${node.data.inputType}`,
+      label: `${node.data.label !== "[object Object]" ? node.data.label : "program"} - Type: ${node.data.inputType}`,
       version: node.data.version,
     },
     width: node.width,

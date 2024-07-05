@@ -1,6 +1,6 @@
 import React, { useState  } from "react";
 import "./sidebar.css";
-import { RssFeed, Notifications as NotificationsIcon , Bookmarks , Build  } from "@material-ui/icons";
+import { RssFeed, Notifications as NotificationsIcon  , Build  } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
 import useTheme from "../ThemeContext.js";
 import { Link } from "react-router-dom";

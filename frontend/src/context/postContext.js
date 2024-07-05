@@ -14,7 +14,7 @@ const PostContext = createContext(initialPostState);
 export const PostProvider = ({ children }) => {
   const [state, dispatch] = useReducer(postReducer, initialPostState);
 
-  const {token, userId } = useAuth();
+  const {token } = useAuth();
 
   const createProgramPost = async (programPostData) => {
     try {

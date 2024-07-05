@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./sharePost.css";
 import noAvatar from "../../../assets/postphotos/user.png";
 import { PermMedia, Room } from "@material-ui/icons";
-import {useAuth} from "../../../context/authContext";
 import usePost from "../../../context/postContext";
 import { Box, CircularProgress } from "@material-ui/core";
 import toast, { Toaster } from "react-hot-toast";

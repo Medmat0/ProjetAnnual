@@ -1,7 +1,7 @@
-      import React, { useState, useCallback, useEffect, version } from 'react';
+      import React, { useState, useCallback, useEffect } from 'react';
       import axios from 'axios';
       import './piplinesBuilder.css';
-      import ReactFlow, {addEdge, MiniMap, Controls, Background,useNodesState, useEdgesState, useReactFlow } from 'reactflow';
+      import ReactFlow, {addEdge, MiniMap, Controls, Background,useNodesState, useEdgesState } from 'reactflow';
       import 'reactflow/dist/style.css';
       import toast from "react-hot-toast";
       import { BASE_URL } from "../../../apiCall";
@@ -36,13 +36,12 @@
         const [executionDetails, setExecutionDetails] = useState([]);
         const [isPopupOpen, setIsPopupOpen] = useState(false); 
         const [deletePipelineId, setDeletePipelineId] = useState(''); 
-        const [reloadKey, setReloadKey] = useState(0);
         const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
         const onDragOver = useCallback((event) => {
           event.preventDefault();
           event.dataTransfer.dropEffect = 'move';
         }, []);
-        
+        console.log(isExecuting, nodeVersions);
         const onDrop = useCallback(
           (event) => {
             event.preventDefault();

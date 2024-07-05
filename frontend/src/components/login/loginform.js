@@ -31,7 +31,7 @@ const LoginForm = () => {
       history('/');
     } catch (error) {
       
-      if (error.code == "ERR_BAD_REQUEST") {
+      if (error.code === "ERR_BAD_REQUEST") {
         console.error('Error during login:', error.code);
         setErrors({ email: '', password: 'No connection to the backend API.' });
         toast.error('No connection to the backend API.');

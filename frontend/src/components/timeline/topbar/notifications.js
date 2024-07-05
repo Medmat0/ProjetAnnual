@@ -8,7 +8,7 @@ import "./notifications.css"; // Assurez-vous que le CSS est importé
 const Notifications = ({ closeDialog }) => {
   const [requests, setRequests] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const { token, userId } = useAuth();
+  const { token } = useAuth();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 

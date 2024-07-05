@@ -15,7 +15,7 @@ const Topbar = ({ searchHandler, setSearchKey, searchKey, menuHandler }) => {
   const [contextMenu, setContextMenu] = useState(null);
   const { token, userId } = useAuth();
   const { theme, setTheme } = useTheme();
-
+  console.log(contextMenu);
   // Toggle theme switch
   const themeModeHandler = () => {
     setTheme(theme === themes.light ? themes.dark : themes.light);

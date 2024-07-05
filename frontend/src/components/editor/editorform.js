@@ -7,27 +7,12 @@ import pythonImage from "../../assets/appImages/python.png";
 import jsImage from "../../assets/appImages/js.png";
 import "./editorform.css";
 import { BASE_URL } from "../../apiCall";
+import toast from "react-hot-toast";
 
 const editorOptions = {
   scrollBeyondLastLine: false,
   fontSize: "14px",
   folding: false,
-};
-
-const inputOptions = {
-  minimap: { enabled: false },
-  automaticLayout: true,
-  scrollBeyondLastLine: false,
-  fontSize: "14px",
-  lineDecorationsWidth: 5,
-};
-
-const outputOptions = {
-  minimap: { enabled: false },
-  automaticLayout: true,
-  scrollBeyondLastLine: false,
-  fontSize: "14px",
-  lineDecorationsWidth: 5,
 };
 
 const CodeEditor = () => {
@@ -37,11 +22,9 @@ const CodeEditor = () => {
   const [language, setLanguage] = useState(languageUser || "python");
   const [code, setCode] = useState(codeInside || "");
   const [output, setOutput] = useState("");
-  const [status, setStatus] = useState("");
   const [editorMode, setEditorMode] = useState("vs-dark");
   const [title, setTitle] = useState("");
   const [inputType, setInputType] = useState(inputUserType || "text");
-  const [outputType, setOutputType] = useState("text");
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null); 
 
@@ -92,16 +75,13 @@ const CodeEditor = () => {
 
   const handleSubmit = async () => {
     setLoading(true); 
-    if(inputUserType == "png")
+    if(inputUserType === "png")
     {
     const codeFile = new Blob([code], { type: "text/plain" });
     const formData = new FormData();
     if (language === "python") formData.append("script", codeFile, "script.py");
     else formData.append("script", codeFile, "script.js");
     formData.append("title", title);
-    formData.append("inputType", inputType);
-    formData.append("outputType", outputType);
-    formData.append("description", "Your Description Here");
 
     if (file) {
       formData.append("image", file); 
@@ -117,7 +97,7 @@ const CodeEditor = () => {
    
       setOutput(response.data.resultUrl);
     } catch (error) {
-      setStatus("Error submitting the code");
+     toast.error("Error submitting the code");
     } finally {
       setLoading(false); 
     }
@@ -144,8 +124,8 @@ const CodeEditor = () => {
 
         setOutput(response.data.resultUrl); 
       } catch (error) {
-        setStatus("Error submitting the code");
-      } finally {
+               toast.error("Error submitting the code");
+     } finally {
         setLoading(false);
       }
     };
@@ -218,7 +198,7 @@ const CodeEditor = () => {
           <select
             value={language}
             onChange={(e) => {
-              setStatus("");
+             
               setLanguage(e.target.value);
             }}
           >

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./programPostCard.css"; // Create and style this CSS file similarly to PostCard.css
+import "./programPostCard.css"; 
 import { Box, CircularProgress } from "@material-ui/core";
 
 import sampleProPic from "../../../assets/postphotos/user.png";
@@ -17,7 +17,6 @@ import Editor from "@monaco-editor/react";
 const ProgramPostCard = ({ post, fetchPosts  }) => {
   const [like, setLike] = useState(post.likesCount);
   const [isLiked, setIsLiked] = useState(false);
-  const [user, setUser] = useState({});
   const [commentLoading, setCommentLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [comm, setComm] = useState("");
@@ -26,7 +25,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
   const { token, userId } = useAuth();
   const [versions, setVersions] = useState([]); 
   const [selectedVersionIndex, setSelectedVersionIndex] = useState(null);
-  const [selectedVersionId, setSelectedVersionId] = useState(null);
+  const [selectedVersionId] = useState(null);
   const history = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -114,23 +113,6 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
     setIsLiked(post.likes?.includes(userId));
   }, [token.id, post.likes]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      if (post.user) {
-        const res = await axios.get(
-          `${BASE_URL}/user?userId=${post.user}`,
-          config
-        );
-        setUser(res.data);
-      }
-    };
-    fetchUsers();
-  }, [post.userId, userId, post.author.name]);
 
   const fetchVersions = async () => {
     try {
@@ -239,7 +221,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
           <div className="dropdown">
     <button className="dropbtn">⋮</button>
     <div className="dropdown-content">
-            {userId == post.author.id ? (
+            {userId === post.author.id ? (
               <button
                 
                 className="DeleteButton"
@@ -285,7 +267,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
             defaultLanguage={post.language}
             value={selectedVersion ? selectedVersion : post.code}
             onChange={(value) => setSelectedVersion(value)}
-            options={{ readOnly: userId != post.author.id,
+            options={{ readOnly: userId !== post.author.id,
                 theme: "vs-dark"
             }}
           />

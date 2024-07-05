@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../apiCall";
 import { useAuth } from "../../context/authContext";
 import Feed from "./feed/feedform";
-import Rightbar from "./rightbar/rightbar";
 import SearchUser from "./searchUser/searchuser";
 import Sidebar from "./sidebar/sidebar";
 import Topbar from "./topbar/topbar";
