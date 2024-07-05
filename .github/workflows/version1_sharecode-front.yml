@@ -25,7 +25,10 @@ jobs:
       - name: Build the app
         run: npm run build
         working-directory: ./frontend
-
+      - name: Verify build output
+        run: ls -la ./frontend/build
+        working-directory: ./
+        
       - name: Zip artifact for deployment
         run: zip -r release.zip ./frontend/build
 
