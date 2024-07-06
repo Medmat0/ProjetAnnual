@@ -5,7 +5,7 @@ import axios from 'axios';
 import './registerform.css';
 import TextError from './TextError'; 
 import {  useNavigate } from 'react-router-dom';
-import { BASE_URL } from "../apiCall";
+import { BASE_URL } from "../../apiCall";
 import toast from "react-hot-toast";
 
 
