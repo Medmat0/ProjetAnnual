@@ -12,6 +12,8 @@ export const AuthProvider = ({ children }) => {
       userId: localStorage.getItem('userId'),
       name: '',
     });
+    const history = useNavigate();
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -25,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', tokn);
       localStorage.setItem('userId', user.id) 
       setAuthInfo({ token : tokn, userId: user.id, name: user.name });
-      useNavigate('/');
+      history('/');
             console.log('user', authInfo.name);
     } catch (error) {
       console.error('Error during login:', error);
