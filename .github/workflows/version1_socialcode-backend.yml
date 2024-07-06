@@ -61,10 +61,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D060BF997B3D40C28BF8D90ACDA3EFB2 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E3132FDEB9964ECD8213A34E6CFF643A }}
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'socialcode-backend'
-          slot-name: 'production'
-          package: ./temp-backend
+      - name: Deploy to Azure Web App using Azure CLI
+        run: |
+          az webapp deployment source config-zip --name socialcode-backend --resource-group your-resource-group --src ./temp-backend/release.zip
+
