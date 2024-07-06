@@ -23,6 +23,7 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
   if (!user) return res.status(400)
   await prisma.user.update({
     where: {
+      
       emailVerificationToken: hashToken,
     },
     data: {
