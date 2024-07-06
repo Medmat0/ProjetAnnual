@@ -5,6 +5,9 @@ import axios from 'axios';
 import './registerform.css';
 import TextError from './TextError'; 
 import {  useNavigate } from 'react-router-dom';
+import { BASE_URL } from "../apiCall";
+import toast from "react-hot-toast";
+
 
 
  const validationSchema = Yup.object({
@@ -29,13 +32,15 @@ const RegisterForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      await axios.post('http://localhost:3000/auth/register', values);
-      history('/login')
+      await axios.post(`${BASE_URL}/auth/register`, values);
+      toast.success('Verify your email');
+      history('/login');
     } catch (error) {
       console.error('Error:', error.response.data);
       if (error.response && error.response.data) {
         setErrors({ email: '', name: error.response.data.message });
       } else {
+        toast.error('Connection lost');
       }
     }
     setSubmitting(false);
