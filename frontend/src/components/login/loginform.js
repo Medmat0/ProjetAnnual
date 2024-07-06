@@ -24,7 +24,6 @@ const LoginForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      await axios.post('http://localhost:3000/auth/login', values);
       login(values.email , values.password); 
       history('/');
     } catch (error) {
