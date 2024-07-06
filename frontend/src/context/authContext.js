@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { BASE_URL } from "../apiCall";
 
 const AuthContext = createContext();
 
@@ -18,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       }, []);
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', { email, password });
+      const response = await axios.post(`${BASE_URL}/auth/login`, { email, password });
       const { tokn, user } = response.data;
       localStorage.setItem('token', tokn);
       localStorage.setItem('userId', user.id) 
