@@ -56,7 +56,6 @@ const register = asyncHandler(async (req, res, next) => {
     where: {
       email: user.email,
     },
-    
     data: {
       emailVerificationToken: hashedToken,
     },
