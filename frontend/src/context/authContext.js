@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { BASE_URL } from "../apiCall";
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -12,7 +11,6 @@ export const AuthProvider = ({ children }) => {
       userId: localStorage.getItem('userId'),
       name: '',
     });
-    const history = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -27,7 +25,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', tokn);
       localStorage.setItem('userId', user.id) 
       setAuthInfo({ token : tokn, userId: user.id, name: user.name });
-      history('/');
             console.log('user', authInfo.name);
     } catch (error) {
       console.error('Error during login:', error);
