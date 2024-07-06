@@ -31,6 +31,7 @@ const ForgotPasswordForm = () => {
   return (
     
     <div className="login">
+      
       <div className="loginWrapper">
         <div className="loginRight">
           <h2>Forgot Password</h2>
