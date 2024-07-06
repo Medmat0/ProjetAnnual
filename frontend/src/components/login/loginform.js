@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './loginform.css';
-import axios from 'axios';
 import { useAuth } from '../../context/authContext';
 import toast from "react-hot-toast";
 
@@ -25,7 +24,6 @@ const LoginForm = () => {
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       login(values.email , values.password); 
-      history('/');
     } catch (error) {
       
       if (error.code === "ERR_BAD_REQUEST") {
