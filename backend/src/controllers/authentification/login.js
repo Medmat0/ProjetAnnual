@@ -46,7 +46,7 @@ const login = asyncHandler(async (req, res, next) => {
           <p>If you did not verfiy your account you won't be able to use a lot of website features</p>`,
     };
     await sendEmailToUser(info);
-    return res.status(400).json({ message: "Verify your account please ! " });
+    return res.status(401).json({ message: "Verify your account please ! " });
   }
   const accessToken = await createAccessToken(user.id);
   const refreshToken = await createRefreshToken(user.id);

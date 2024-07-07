@@ -9,7 +9,7 @@ import { BASE_URL } from "../../apiCall";
 import toast from "react-hot-toast";
 
 
-
+  
  const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email format').required('Required'),

@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 import './loginform.css';
 import { useAuth } from '../../context/authContext';
 import toast from "react-hot-toast";
-
+import { BASE_URL } from "../apiCall";
+import axios from 'axios';
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email format').required('Required'),
   password: Yup.string().required('Required').min(6),
@@ -23,25 +24,25 @@ const LoginForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      login(values.email , values.password); 
+       
+      const response = await axios.post(`${BASE_URL}/auth/login`, { email: values.email, password: values.password });
+      const { tokn, user } = response.data;
+      await login(tokn, user);       
       history('/');
     } catch (error) {
-      
-      if (error.code === "ERR_BAD_REQUEST") {
-        console.error('Error during login:', error.code);
-        setErrors({ email: '', password: 'No connection to the backend API.' });
-        toast.error('No connection to the backend API.');
-      }
-      if (error.response && error.response.data) {
-        setErrors({ email: '', password: error.response.data.message });
-      
+      console.error('Error during login:', error);
+      if (error.response && error.response.status === 401) {
+        setErrors({ email: '', password: 'Verify your account please!' });
+      }else if (error.response && error.response.status === 400) {
+        setErrors({ email: '', password: 'Wrong email or password' });
+
       } else {
-        setErrors({ email: '', password: 'An error occurred during login.' });
-        toast.error('No connection to the backend API.');
+        setErrors({ email: '', password: 'Connection lost' });
       }
     }
     setSubmitting(false);
   };
+  
 
   return (
     <div className="login">
