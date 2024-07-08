@@ -75,7 +75,7 @@ const Profile = () => {
   return (
     <>
       <Helmet
-        title={`${user?.name ? user?.name : "User"} Profile | Splash Social`}
+        title={`${user?.name ? user?.name : "User"} Profile | ShareCode`}
       />
       <Toaster />
       <Topbar

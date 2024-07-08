@@ -77,7 +77,7 @@ const Timeline = () => {
 
   return (
     <>
-      <Helmet title="Timeline | Splash Social" />
+      <Helmet title="Timeline |  Share code" />
       <Toaster />
       <Topbar
         searchHandler={searchHandler}
