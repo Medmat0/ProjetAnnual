@@ -1,0 +1,65 @@
+/* notifications.css */
+.notifications {
+    padding: 20px;
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .notification-item .user-info {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .notification-item span {
+    font-size: 14px;
+  }
+  
+  .notification-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .notification-item button.accept {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .notification-item button.reject {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .notification-item button:hover {
+    opacity: 0.8;
+  }
+  
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .pagination-controls button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #ddd;
+  }
+  
+  .pagination-controls button:hover {
+    background-color: #ccc;
+  }
+  

@@ -1,12 +1,11 @@
-import React , { useEffect }from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import './loginform.css';
-import axios from 'axios';
 import { useAuth } from '../../context/authContext';
-
-
+import { BASE_URL } from "../../apiCall";
+import axios from 'axios';
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email format').required('Required'),
   password: Yup.string().required('Required').min(6),
@@ -15,7 +14,6 @@ const validationSchema = Yup.object({
 const LoginForm = () => {
   const {login}   = useAuth();
   const history = useNavigate();
-  
 
   const initialValues = {
     email: '',
@@ -25,19 +23,25 @@ const LoginForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', values);
-      login(values.email , values.password); 
-      history('/home');
+       
+      const response = await axios.post(`${BASE_URL}/auth/login`, { email: values.email, password: values.password });
+      const { tokn, user } = response.data;
+      await login(tokn, user);       
+      history('/');
     } catch (error) {
       console.error('Error during login:', error);
-      if (error.response && error.response.data) {
-        setErrors({ email: '', password: error.response.data.message });
+      if (error.response && error.response.status === 401) {
+        setErrors({ email: '', password: 'Verify your account please!' });
+      }else if (error.response && error.response.status === 400) {
+        setErrors({ email: '', password: 'Wrong email or password' });
+
       } else {
-        setErrors({ email: '', password: 'Une erreur est survenue lors de la connexion.' });
+        setErrors({ email: '', password: 'Connection lost' });
       }
     }
     setSubmitting(false);
   };
+  
 
   return (
     <div className="login">

@@ -3,11 +3,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import './resetpasswordform.css';
+import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from "../../apiCall";
+
 
 const ResetPasswordForm = () => {
   const [resetSuccess, setResetSuccess] = useState(false);
   const [resetError, setResetError] = useState(null);
-
+  const  history = useNavigate();
   const initialValues = {
     acessCode: '',
     password: '',
@@ -24,13 +27,14 @@ const ResetPasswordForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.patch('http://localhost:3000/auth/changepassword', {
+      const response = await axios.patch(`${BASE_URL}/auth/changepassword`, {
         password: values.password,
         acessCode: values.acessCode,
       });
       console.log(response.data);
       setResetSuccess(true);
       setResetError(null);
+      history('/login');
     } catch (error) {
       console.error('Error:', error.response.data);
       setResetSuccess(false);

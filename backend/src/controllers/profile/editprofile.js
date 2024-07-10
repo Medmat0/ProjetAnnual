@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma.js';
 import asyncHandler from "express-async-handler";
 import crypto from "crypto";
 import { sendEmailToUser } from "../../utils/email.config.js";
 
-const prisma = new PrismaClient();
 
 /**
  * @desc    user updates his info

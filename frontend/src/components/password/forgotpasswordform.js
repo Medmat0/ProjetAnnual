@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
-
+import { BASE_URL } from "../../apiCall";
 import * as Yup from 'yup';
 import axios from 'axios';
 import './forgotpasswordform.css';
+import toast from 'react-hot-toast';
 
 const ForgotPasswordForm = () => {
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const history = useNavigate();
 
   const validationSchema = Yup.object({
@@ -21,17 +20,18 @@ const ForgotPasswordForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/forgotpassword', values);
-      setSuccessMessage(response.data.message);
+       await axios.post(`${BASE_URL}/auth/forgotpassword`, values);
       history('/resetpassword');
     } catch (error) {
-      setErrorMessage(error.response.data.message);
-    }
+    toast.error(error.response.data.error);
+  }
     setSubmitting(false);
   };
 
   return (
+    
     <div className="login">
+      
       <div className="loginWrapper">
         <div className="loginRight">
           <h2>Forgot Password</h2>

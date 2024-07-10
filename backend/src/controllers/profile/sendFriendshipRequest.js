@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '../prisma.js';
 import asyncHandler from "express-async-handler";
 
-const prisma = new PrismaClient();
 
 /**
  * @desc    Send a follow request

@@ -1,0 +1,192 @@
+.post {
+    width: 100%;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 17px -8px rgba(0, 0, 0, 0.67);
+    box-shadow: 0px 0px 17px -8px rgba(0, 0, 0, 0.67);
+    margin: 30px 0;
+  }
+  
+  .postWrapper {
+    padding: 10px;
+  }
+  
+  .postTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .postTopLeft {
+    display: flex;
+    align-items: center;
+  }
+  
+  .postProfileImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .postUsername {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  
+  .postLocation {
+    font-size: 12px;
+    font-weight: bold;
+    color: green;
+  }
+  
+  .postDate {
+    font-size: 12px;
+    margin-left: 10px;
+  }
+  
+  .postCenter {
+    margin: 20px 0;
+  }
+  
+  .postImg {
+    margin-top: 20px;
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
+  
+  .postBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .postBottomLeft {
+    display: flex;
+    align-items: center;
+  }
+  
+  .likeIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .postLikeCounter {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 5px;
+  }
+  
+  .postCommentText {
+    cursor: pointer;
+    border-bottom: 1px dashed gray;
+  }
+  
+  .postCommentCont {
+    margin-top: 5px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .postCommentCont-1 {
+    width: 90%;
+  }
+  
+  .postCommentsBox {
+    margin-top: 5px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .postCommentUser {
+    min-width: 20%;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .postCommentContent {
+    margin-left: 8px;
+    font-size: 13px;
+    word-spacing: 2px;
+    font-weight: bold;
+  }
+  
+  .postCommentUserName {
+    margin-left: 5px;
+  }
+  
+  .postCommentBtn {
+    background-color: #5699f0;
+    color: white;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* Styles pour les boutons d'action sur les commentaires */
+.commentActions {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.commentActions button {
+  margin-right: 5px;
+  background-color: #f44336; /* Rouge pour le bouton de suppression */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.commentActions button:hover {
+  background-color: #d32f2f; /* Rouge foncé au survol */
+}
+
+.commentActions button.update {
+  background-color: #4caf50; /* Vert pour le bouton de mise à jour */
+}
+
+.commentActions button.update:hover {
+  background-color: #388e3c; /* Vert foncé au survol */
+}
+
+/* Style pour la zone de saisie de réponse aux commentaires */
+.replyInput {
+  margin-top: 5px;
+}
+
+.replyInput input[type="text"] {
+  width: calc(100% - 40px); /* La largeur est ajustée en fonction du bouton de réponse */
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.replyInput button {
+  width: 40px;
+  padding: 8px;
+  background-color: #2196f3; /* Bleu pour le bouton de réponse */
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.replyInput button:hover {
+  background-color: #1976d2; /* Bleu foncé au survol */
+}

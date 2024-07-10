@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { BASE_URL } from "../apiCall";
 
 const AuthContext = createContext();
 
@@ -10,26 +11,19 @@ export const AuthProvider = ({ children }) => {
       userId: localStorage.getItem('userId'),
       name: '',
     });
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
           setAuthInfo(prevState => ({ ...prevState, token }));
         }
       }, []);
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post('http://localhost:3000/auth/login', { email, password });
-      const { tokn, user } = response.data;
-      localStorage.setItem('token', tokn);
-      localStorage.setItem('userId', user.id) 
-      setAuthInfo({ token : tokn, userId: user.id, name: user.name });
-    
-      console.log('user', authInfo.name);
-    } catch (error) {
-      console.error('Error during login:', error);
-      throw new Error('Login failed');
-    }
-  };
+      const login = async (tokn, user) => {
+        localStorage.setItem('token', tokn);
+        localStorage.setItem('userId', user.id) ;
+        localStorage.setItem('name', user.name);
+        setAuthInfo({ token : tokn, userId: user.id, name: user.name });
+    };
 
   const logout = () => {
     setAuthInfo({ token: null, userId: null });
