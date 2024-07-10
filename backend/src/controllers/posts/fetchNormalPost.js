@@ -29,10 +29,24 @@ const getUserPosts = asyncHandler(async (req, res, next) => {
           id: true,
         },
       },
+      // kandn bli khas itzad hna xi inclde lhadok les likes 
+
       comments: { // Include comments for each post
         select: {
           id: true,
           content: true,
+          User: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+      likes: { // Include likes for each post
+        select: { 
+          postId :true,
+          userId :true,
           User: {
             select: {
               id: true,
