@@ -71,7 +71,7 @@ const Rightbar = ({ user }) => {
 
   useEffect(() => {
     if (params.userId && friends.length > 0) {
-      setFollowed(friends.some((friend) => friend.id === params.userId));
+      setFollowed(friends.some((friend) => friend.id == params.userId));
     }
   }, [friends, params.userId]);
 
