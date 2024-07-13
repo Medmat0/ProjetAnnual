@@ -1,0 +1,669 @@
+openapi: 3.0.0
+info:
+  title: My API
+  version: 1.0.0
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Omar'
+                email:
+                  type: string
+                  example: 'oelbaraka@myges.fr'
+                password:
+                  type: string
+                  example: 'omar123'
+                role:
+                  type: string
+                  example: 'USER'
+                bio:
+                  type: string
+                  example: 'Software developer'
+                city:
+                  type: string
+                  example: 'Paris'
+      responses:
+        '200':
+          description: Successful registration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 3
+                      name:
+                        type: string
+                        example: 'Omar'
+                      email:
+                        type: string
+                        example: 'oelbaraka@myges.fr'
+                      password:
+                        type: string
+                        example: '$2b$10$2sAlPz3s8ou9PQSjR/7v7eOsvK0Chsmo7lg3s9.DOqeCqMAiPMmVu'
+                      role:
+                        type: string
+                        example: 'USER'
+                      isActive:
+                        type: boolean
+                        example: true
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T17:25:57.978Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T17:25:57.978Z'
+                      passwordResetToken:
+                        type: string
+                        nullable: true
+                        example: null
+                      passwordResetTokenVerfied:
+                        type: string
+                        nullable: true
+                        example: null
+                      passwordResetTokenExpire:
+                        type: string
+                        nullable: true
+                        example: null
+                      passwordChangedAt:
+                        type: string
+                        nullable: true
+                        example: null
+                      emailVerificationToken:
+                        type: string
+                        nullable: true
+                        example: null
+                      emailVerified:
+                        type: boolean
+                        example: false
+        '400':
+          description: Bad request, e.g. email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Email already exists'
+  /auth/login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'oelbaraka@myges.fr'
+                password:
+                  type: string
+                  example: 'omar123'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 3
+                      name:
+                        type: string
+                        example: 'Omar'
+                      email:
+                        type: string
+                        example: 'oelbaraka@myges.fr'
+                      password:
+                        type: string
+                        example: '$2b$10$2sAlPz3s8ou9PQSjR/7v7eOsvK0Chsmo7lg3s9.DOqeCqMAiPMmVu'
+                      role:
+                        type: string
+                        example: 'USER'
+                      isActive:
+                        type: boolean
+                        example: true
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T17:25:57.978Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T17:28:19.183Z'
+                      passwordResetToken:
+                        type: string
+                        nullable: true
+                        example: null
+                      passwordResetTokenVerfied:
+                        type: string
+                        nullable: true
+                        example: null
+                      passwordResetTokenExpire:
+                        type: string
+                        nullable: true
+                        example: null
+                      passwordChangedAt:
+                        type: string
+                        nullable: true
+                        example: null
+                      emailVerificationToken:
+                        type: string
+                        nullable: true
+                        example: null
+                      emailVerified:
+                        type: boolean
+                        example: true
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzE4ODE4MTExLCJleHAiOjE3MTg5MDQ1MTF9.kWbrHoY3kpBV31s8YWypKhVxvgBOunDCyN3Nbtg42yk'
+        '400':
+          description: Bad request, e.g. wrong email or password, email not verified
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Wrong email or password.'
+                    
+
+  /auth/forgotpassword:
+    post:
+      summary: Forgot password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'oelbaraka@myges.fr'
+      responses:
+        '200':
+          description: Password reset code sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  message:
+                    type: string
+                    example: 'password reset code has been sent.'
+        '400':
+          description : Email not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'this email is not available: oelbaraka@myges.fr'
+  /auth/changepassword:
+    patch:
+      summary: Change password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: 'omar1234'
+                acessCode:
+                  type: string
+                  example: 'd7ecdc57082b7994c64854aa638c6d4c38096198bee78ca06d7d1fabc1ae477c340256281058ee7bb824ed5bfe14c5ee92eeaf1f5898b54878ef227a98cbd7b8'
+      responses:
+        '201':
+          description: Successful password change
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+        '400':
+          description: Invalid access code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid access code'
+  /post/createPost:
+    post:
+      summary: Create a new post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 'titr'
+                content:
+                  type: string
+                  example: 'voici mon post'
+                privacy:
+                  type: string
+                  example: 'PUBLIC'
+                image:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Successful post creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      userId:
+                        type: integer
+                        example: 2
+                      title:
+                        type: string
+                        example: 'titr'
+                      content:
+                        type: string
+                        example: 'voici mon post'
+                      image:
+                        type: array
+                        items:
+                          type: string
+                          example: 'http://res.cloudinary.com/duy6c001a/image/upload/v1718812689/kzpzoyoiu49ltf9zt38a.png'
+                      likesCount:
+                        type: integer
+                        example: 0
+                      commentsCount:
+                        type: integer
+                        example: 0
+                      postedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T15:58:11.540Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T15:58:11.540Z'
+                      privacy:
+                        type: string
+                        example: 'PUBLIC'
+  /post/myposts:
+    get:
+      summary: Get my posts
+      responses:
+        '200':
+          description: Successful retrieval of user posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 3
+                        userId:
+                          type: integer
+                          example: 2
+                        title:
+                          type: string
+                          example: '2eme post '
+                        content:
+                          type: string
+                          example: 'omar le bg'
+                        image:
+                          type: array
+                          items:
+                            type: string
+                            example: 'http://res.cloudinary.com/duy6c001a/image/upload/v1718819040/egkqz7qzhdkhzbxghtoe.png'
+                        likesCount:
+                          type: integer
+                          example: 0
+                        commentsCount:
+                          type: integer
+                          example: 0
+                        postedAt:
+                          type: string
+                          format: date-time
+                          example: '2024-06-19T17:44:01.397Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: '2024-06-19T17:44:01.397Z'
+                        privacy:
+                          type: string
+                          example: 'PUBLIC'
+                        author:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 'Omar'
+                            id:
+                              type: integer
+                              example: 2
+                        comments:
+                          type: array
+                          items:
+                            type: object
+  /post/posts/{userId}:
+    get:
+      summary: Get user posts
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful retrieval of user posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        userId:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: 'titr'
+                        content:
+                          type: string
+                          example: 'voici mon post'
+                        image:
+                          type: array
+                          items:
+                            type: string
+                            example: 'http://res.cloudinary.com/duy6c001a/image/upload/v1718761368/wr8pldxpdjyyas3kgsh2.png'
+                        likesCount:
+                          type: integer
+                          example: 0
+                        commentsCount:
+                          type: integer
+                          example: 0
+                        postedAt:
+                          type: string
+                          format: date-time
+                          example: '2024-06-19T01:42:49.341Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: '2024-06-19T16:03:24.365Z'
+                        privacy:
+                          type: string
+                          example: 'PUBLIC'
+                        author:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 'Zineb'
+                            id:
+                              type: integer
+                              example: 1
+                        comments:
+                          type: array
+                          items:
+                            type: object
+  /like/{postId}:
+    post:
+      summary: Like or dislike a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Post liked successfully or disliked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: '"You liked This post 1 "You unliked this post 1" ' 
+                  data:
+                    type: object
+                    properties:
+                      postId:
+                        type: integer
+                        example: 1
+                      User:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 2
+                          name:
+                            type: string
+                            example: 'Omar'
+
+  /profile/details/{id}:
+    get:
+      summary: Get user profile details
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful retrieval of user profile details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Zineb'
+                      email:
+                        type: string
+                        example: 'elbarakaomar99@hotmail.com'
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-18T21:33:42.614Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T01:10:29.216Z'
+                      emailVerified:
+                        type: boolean
+                        example: true
+                      profile:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          bio:
+                            type: string
+                            example: 'Software developer'
+                          image:
+                            type: string
+                            nullable: true
+                            example: null
+                          city:
+                            type: string
+                            example: 'Paris'
+                          website:
+                            type: string
+                            nullable: true
+                            example: null
+                      followers:
+                        type: array
+                        items:
+                          type: object
+                      following:
+                        type: array
+                        items:
+                          type: object
+  /profile/request/send/{id}:
+    post:
+      summary: Send a friend request to a user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 2
+      responses:
+        '200':
+          description: Successful friend request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  message:
+                    type: string
+                    example: 'Follow request sent to user ID: 2'
+                  followRequest:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      requesterId:
+                        type: integer
+                        example: 1
+                      requesteeId:
+                        type: integer
+                        example: 2
+                      status:
+                        type: string
+                        example: 'PENDING'
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T16:05:54.073Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-06-19T16:05:54.073Z'
+  /profile/request/accept/{requestId}:
+    post:
+      summary: Accept a follow request
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          schema:
+            type: integer
+            example: 4
+      responses:
+        '200':
+          description: Follow request accepted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'Success'
+                  message:
+                    type: string
+                    example: 'Follow request accepted and friendship created.'
+        '404':
+          description: Follow request not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Follow request not found.'
