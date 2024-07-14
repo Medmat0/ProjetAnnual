@@ -23,12 +23,12 @@ const currentUserDeletePost = asyncHandler(async (req, res, next) => {
   }
 
   await prisma.$transaction([
-    prisma.comment.deleteMany({
+    prisma.PostComment.deleteMany({
       where: {
         postId: postId,
       },
     }),
-    prisma.like.deleteMany({
+    prisma.postLike.deleteMany({
       where: {
         postId: postId,
       },
