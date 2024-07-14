@@ -16,13 +16,13 @@ const getAllCommentsOnAPost = asyncHandler(async (req, res, next) => {
   const post = await ValidPostToMakeActions(postId, currentUser);
   if (!post)
     return res.status(404).json({ message: "We can't reach to this post" });
-  const comments = await prisma.comment.findMany({
+  const comments = await prisma.PostComment.findMany({
     where: {
       postId: postId,
     },
     select: {
       postId: true,
-      User: {
+      user: {
         select: {
           id: true,
           name: true,

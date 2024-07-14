@@ -52,11 +52,11 @@ const getUserPosts = asyncHandler(async (req, res, next) => {
           },
         },
       },
-      likes: { // Include likes for each post
+      likes: { 
         select: { 
           postId :true,
           userId :true,
-          User: {
+          user: {
             select: {
               id: true,
               name: true,
@@ -65,18 +65,6 @@ const getUserPosts = asyncHandler(async (req, res, next) => {
                   image: true,
                 },
               },
-            },
-          },
-        },
-      },
-      likes: { // Include likes for each post
-        select: { 
-          postId :true,
-          userId :true,
-          User: {
-            select: {
-              id: true,
-              name: true,
             },
           },
         },

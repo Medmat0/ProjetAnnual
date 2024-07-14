@@ -16,7 +16,7 @@ const createComment = asyncHandler(async (req, res, next) => {
   if (!post)
     return res.status(404).json({ message: "We can't reach to this post" });
 
-  const comment = await prisma.postComment.create({
+  const comment = await prisma.PostComment.create({
     data: {
       postId: postId,
       userId: currentUser,

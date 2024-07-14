@@ -70,6 +70,18 @@ const getProgramPosts = asyncHandler(async (req, res, next) => {
             },
           },
         },
+        likes: { 
+          select: { 
+            id :true,
+            userId :true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
   
