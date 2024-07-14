@@ -66,7 +66,7 @@ const register = asyncHandler(async (req, res, next) => {
     subject: "Email verfication",
     text: "Verfiy you email",
     htm: `<h1>Email verfication </h1>
-          <p>Hello ${name}, Please follow this link to verfiy your account. </p><a href= 'https://socialcode-backend.azurewebsites.net/verfiy/${plainVerfiyToken}'> Click link </a>
+          <p>Hello ${name}, Please follow this link to verfiy your account. </p><a href= 'https://socialcode-backend.azurewebsites.net/auth/verfiy/${plainVerfiyToken}'> Click link </a>
           <p>If you did not verfiy your account you won't be able to use a lot of website features</p>`,
   };
   await sendEmailToUser(info);
