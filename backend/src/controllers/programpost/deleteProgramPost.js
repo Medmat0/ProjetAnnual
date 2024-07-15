@@ -9,7 +9,7 @@ import asyncHandler from "express-async-handler";
  */
 const deleteProgramPost = asyncHandler(async (req, res, next) => {
   const currentUser = +req.user.id;
-  const postId = +req.params.id;
+  const postId = +req.params.postId;
 
   const programPost = await prisma.programPost.findUnique({
     where: { id: postId },
@@ -24,12 +24,12 @@ const deleteProgramPost = asyncHandler(async (req, res, next) => {
   }
 
   await prisma.$transaction([
-    prisma.comment.deleteMany({
-      where: { postId: postId },
+    prisma.ProgramPostComment.deleteMany({
+      where: { programPostId: postId },
     }),
 
-    prisma.like.deleteMany({
-      where: { postId: postId },
+    prisma.ProgramPostLike.deleteMany({
+      where: { programPostId: postId },
     }),
 
     prisma.user.update({
