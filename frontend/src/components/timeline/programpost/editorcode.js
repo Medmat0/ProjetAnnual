@@ -100,7 +100,7 @@ const ProgrammePost = ({ fetchPosts }) => {
     setTags(updatedTags);
   };
 
-  const tagOptions = ["Technology", "Programming", "Science", "Art", "Music"];
+  const tagOptions = ["Images filter", "Text addition", "Python", "Javascript", "Programming"];
 
   return (
     <>
