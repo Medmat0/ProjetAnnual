@@ -125,7 +125,7 @@ const PostCard = ({ post, fetchPosts }) => {
             </span>
           </div>
           <div className="postTopRight">
-            {userId === post.author.id ? (
+            {userId == post.author.id ? (
               <button
                 style={{ backgroundColor: "#3b82f6" }}
                 className="shareButton"

@@ -221,7 +221,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
           <div className="dropdown">
     <button className="dropbtn">⋮</button>
     <div className="dropdown-content">
-            {userId === post.author.id ? (
+            {userId == post.author.id ? (
               <button
                 
                 className="DeleteButton"

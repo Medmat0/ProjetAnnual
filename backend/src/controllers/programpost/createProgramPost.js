@@ -9,7 +9,7 @@ import asyncHandler from "express-async-handler";
  * @route   /post/create-program-post
  */
 const createProgramPost = asyncHandler(async (req, res, next) => {
-  const { title, content, code, inputType, privacy, language } = req.body;
+  const { title, content, code, inputType, privacy, language,tags } = req.body;
  
   if (!title || !content || !code) {
     return res.status(400).json({ message: "Title, Description, and Code are required." });
@@ -23,7 +23,8 @@ const createProgramPost = asyncHandler(async (req, res, next) => {
       code: code,
       inputType: inputType,
       privacy: privacy,
-      language: language
+      language: language,
+      tags: tags,
     },
   });
 
