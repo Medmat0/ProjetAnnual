@@ -6,7 +6,7 @@ import { TailSpin } from "react-loader-spinner"; // Importation de l'indicateur 
 import pythonImage from "../../assets/appImages/python.png";
 import jsImage from "../../assets/appImages/js.png";
 import "./editorform.css";
-import { BASE_URL } from "../../apiCall";
+import { BASE_URL , BASE_URL_DOCKER } from "../../apiCall";
 import toast from "react-hot-toast";
 
 const editorOptions = {
@@ -88,7 +88,7 @@ const CodeEditor = () => {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/execution/pngCode`, formData, {
+      const response = await axios.post(`${BASE_URL_DOCKER}/execution/pngCode`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer <your-token-here>`,
@@ -115,7 +115,7 @@ const CodeEditor = () => {
       };
 
       try {
-        const response = await axios.post(`${BASE_URL}/execute/txtCode`, programData, {
+        const response = await axios.post(`${BASE_URL_DOCKER}/execute/txtCode`, programData, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer <your-token-here>`,

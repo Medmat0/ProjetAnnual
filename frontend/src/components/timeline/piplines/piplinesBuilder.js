@@ -4,7 +4,7 @@
       import ReactFlow, {addEdge, MiniMap, Controls, Background,useNodesState, useEdgesState } from 'reactflow';
       import 'reactflow/dist/style.css';
       import toast from "react-hot-toast";
-      import { BASE_URL } from "../../../apiCall";
+      import { BASE_URL , BASE_URL_DOCKER } from "../../../apiCall";
       import { useAuth } from "../../../context/authContext";
       import { getImageForLanguage ,transformEdges, transformNodes ,transformPipelineData ,ExecutionPopup , transformPipeline } from "./utils";
 
@@ -190,7 +190,7 @@
                   formData.append('image', input);
                 }
         
-                response = await axios.post(`${BASE_URL}/execution/pngCode`, formData, {
+                response = await axios.post(`${BASE_URL_DOCKER}/execution/pngCode`, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,
@@ -215,7 +215,7 @@
                     input: fileContent, 
                   };
         
-                response = await axios.post(`${BASE_URL}/execute/txtCode`, programData, {
+                response = await axios.post(`${BASE_URL_DOCKER}/execute/txtCode`, programData, {
                   headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
