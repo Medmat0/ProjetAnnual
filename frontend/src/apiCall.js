@@ -1,1 +1,1 @@
-export const BASE_URL = "https://socialcode-backend.azurewebsites.net";
+export const BASE_URL = "http://20.0.152.200:3000";
