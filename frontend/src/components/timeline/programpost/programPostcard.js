@@ -267,7 +267,7 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
             defaultLanguage={post.language}
             value={selectedVersion ? selectedVersion : post.code}
             onChange={(value) => setSelectedVersion(value)}
-            options={{ readOnly: userId !== post.author.id,
+            options={{ readOnly: userId != post.author.id,
                 theme: "vs-dark"
             }}
           />
