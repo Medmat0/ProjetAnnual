@@ -23,7 +23,9 @@ const Share = ({ fetchPosts }) => {
       method: "POST",
       body: data,
     });
+   console.log("res", res);
     const resData = await res.json();
+    console.log("resData", resData);
     return resData.secure_url;
   };
 
@@ -37,6 +39,7 @@ const Share = ({ fetchPosts }) => {
     if (image) {
       setPicLoading(true);
       imageUrl = await uploadToCloudinary(image);
+      console.log("Image URL:", imageUrl);
       setPicLoading(false);
     }
 
