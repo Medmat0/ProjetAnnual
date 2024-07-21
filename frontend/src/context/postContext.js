@@ -36,7 +36,7 @@ export const PostProvider = ({ children }) => {
   };
   
   // create post req
-  const createPost = async (postData) => {
+ const createPost = async (postData) => {
     try {
       dispatch({
         type: "CREATE_POST_REQUEST",
@@ -95,7 +95,6 @@ export const PostProvider = ({ children }) => {
         payload: data.data,
       });
      
-      //console.log("Timeline posts", data.data);
     } catch (error) {
       dispatch({
         type: "FETCH_POSTS_FAIL",

@@ -7,20 +7,20 @@ import asyncHandler from "express-async-handler";
  * @route   /post/create-post
  */
 const createPost = asyncHandler(async (req, res) => {
-  const { title, content, privacy, imageUrl } = req.body;
-  console.log("privacy in backend", privacy);
+  const { title, content, privacy, image } = req.body;
+  const urls =  [];
 
-  if (!imageUrl || imageUrl.length === 0) {
+  if (!image || image.length === 0) {
     return res.status(400).json({ message: "Please provide at least one image URL." });
   }
-
+  urls.push(image); 
   const newPost = await prisma.post.create({
     data: {
       userId: +req.user.id,
       title,
       content,
       privacy,
-      image: imageUrl,
+      image: urls,
     },
   });
 
