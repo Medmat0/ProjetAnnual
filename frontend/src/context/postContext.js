@@ -36,23 +36,23 @@ export const PostProvider = ({ children }) => {
   };
   
   // create post req
-  const createPost = async (formData) => {
+  const createPost = async (postData) => {
     try {
       dispatch({
         type: "CREATE_POST_REQUEST",
       });
       const config = {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       };
       const { data } = await axios.post(
         `${BASE_URL}/post/createPost`,
-        formData,
+        postData,
         config
       );
-      
+
       dispatch({
         type: "CREATE_POST_SUCCESS",
         payload: data,
@@ -60,20 +60,19 @@ export const PostProvider = ({ children }) => {
       toast.success("Post created successfully", successOptions);
     } catch (error) {
       console.log("Error", error);
-        if (error.response && error.response.data && error.response.data.message) {
-            dispatch({
-              type: "CREATE_POST_FAIL",
-              payload: error.response.data.message,
-            });
-            toast.error(error.response.data.message, errorOptions);
-          } else {
-            dispatch({
-              type: "CREATE_POST_FAIL",
-              payload: "An error occurred while creating the post.",
-            });
-            toast.error("An error occurred while creating the post.", errorOptions);
-          }
-          
+      if (error.response && error.response.data && error.response.data.message) {
+        dispatch({
+          type: "CREATE_POST_FAIL",
+          payload: error.response.data.message,
+        });
+        toast.error(error.response.data.message, errorOptions);
+      } else {
+        dispatch({
+          type: "CREATE_POST_FAIL",
+          payload: "An error occurred while creating the post.",
+        });
+        toast.error("An error occurred while creating the post.", errorOptions);
+      }
     }
   };
   
