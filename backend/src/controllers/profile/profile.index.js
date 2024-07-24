@@ -6,3 +6,4 @@ export {acceptFriendshipRequest} from "./acceptFriendshipRequest.js";
 export {rejectFriendshipRequest} from "./declineFriendshipRequest.js";
 export {listFriendshipRequest} from "./listRequests.js";   
 export {sendFriendshipRequest} from "./sendFriendshipRequest.js";
+export  {unfollowUser}  from "./unfollowUser.js"

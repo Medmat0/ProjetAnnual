@@ -5,6 +5,7 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 import { getCurrentProfile , 
   getAllFriends , 
           searchForUsers ,
+          unfollowUser,
          updateCurrentUser ,
           listFriendshipRequest ,
           acceptFriendshipRequest, 
@@ -18,6 +19,8 @@ router.get('/requests', authMiddleware, listFriendshipRequest);
 router.post('/request/accept/:requestId', authMiddleware, acceptFriendshipRequest);
 router.post('/request/reject/:requestId', authMiddleware, rejectFriendshipRequest);
 router.post('/request/send/:userId', authMiddleware, sendFriendshipRequest);
+router.post('/unfollow/:userId', authMiddleware , unfollowUser)
+
 
 
 export default router;
