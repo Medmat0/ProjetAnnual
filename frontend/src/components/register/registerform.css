@@ -12,6 +12,11 @@
     height: 80%;
     display: flex;
   }
+  .loginLogoImage {
+    width: 300px; 
+    margin-left: 80px; 
+  }
+  
   
   .registerLeft,
   .registerRight {

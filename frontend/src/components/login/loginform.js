@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/appImages/logo_pa.png';
 import * as Yup from 'yup';
 import './loginform.css';
 import { useAuth } from '../../context/authContext';
@@ -51,6 +52,7 @@ const LoginForm = () => {
           <span className="loginDesc">
             Welcome to our community sharingCode with all your friends around the world
           </span>
+          <img src={logo} alt="Logo" className="loginLogoImage" />
         </div>
         <div className="loginRight">
           <Formik

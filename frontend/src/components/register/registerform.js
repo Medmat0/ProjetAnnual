@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import logo from '../../assets/appImages/logo_pa.png';
 import axios from 'axios';
 import './registerform.css';
 import TextError from './TextError'; 
@@ -55,6 +56,8 @@ const RegisterForm = () => {
             <span className="registerDesc">
             Welcome to our community SharingCode with all your friends around the world ! Join us now 😊
             </span>
+            <img src={logo} alt="Logo" className="loginLogoImage" />
+
         </div>
         <div className="registerRight">
         <Formik
