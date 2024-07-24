@@ -25,11 +25,17 @@ const userId = parseInt(req.params.userId);
     include: {
       author: {
         select: {
-          name: true,
           id: true,
+          name: true,
+          profile: {
+            select: {
+              image: true,
+            },
+          },
         },
       },
-      comments: { // Include comments for each post
+
+      comments: {
         select: {
           id: true,
           content: true,
@@ -37,6 +43,28 @@ const userId = parseInt(req.params.userId);
             select: {
               id: true,
               name: true,
+              profile: {
+                select: {
+                  image: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      likes: { 
+        select: { 
+          postId :true,
+          userId :true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              profile: {
+                select: {
+                  image: true,
+                },
+              },
             },
           },
         },

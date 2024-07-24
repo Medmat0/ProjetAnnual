@@ -222,13 +222,16 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
     <button className="dropbtn">⋮</button>
     <div className="dropdown-content">
             {userId == post.author.id ? (
-              <button
-                
-                className="DeleteButton"
-                onClick={deleteHandler}
-              >
-                Delete
-              </button>
+              <><button
+
+                    className="DeleteButton"
+                    onClick={deleteHandler}
+                  >
+                    Delete
+                  </button><button className="saveButton" onClick={saveVersion}>
+                      Save
+                    </button></>
+
             ) : (
               <> </>
             )}
@@ -238,15 +241,13 @@ const ProgramPostCard = ({ post, fetchPosts  }) => {
             >
               Versions
             </button>
-            <button
+            <button 
               className="versionButton"
               onClick={handleExecuteScript}
             >
               Execute Script
             </button>
-            <button className="saveButton" onClick={saveVersion}>
-              Save
-            </button>
+          
             <button
             class="addToCollectionButton"
               variant="contained"
